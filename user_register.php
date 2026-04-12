@@ -1,6 +1,6 @@
 <?php
 // ================= CORS =================
-header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Origin: https://management-gym.onrender.com/");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
@@ -11,12 +11,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // ================= DB =================
-$conn = mysqli_connect("localhost", "root", "", "gym_db");
+
+$host = "sql312.infinityfree.com";
+$user = "if0_41634430";
+$pass = "QBzB1XSGUt";
+$db   = "if0_41634430_gym_db";
+
+$conn = mysqli_connect($host, $user, $pass, $db);
+
 if (!$conn) {
     echo json_encode([
         "status" => "error",
         "type" => "db",
-        "message" => "Database connection failed"
+        "message" => "Database connection failed: " . mysqli_connect_error()
     ]);
     exit;
 }

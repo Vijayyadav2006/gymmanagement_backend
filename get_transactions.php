@@ -2,14 +2,14 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); // Added POST, OPTIONS
 header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Origin: http://localhost:5173"); // Changed from * to match your main API
+header("Access-Control-Allow-Origin: https://management-gym.onrender.com/"); // Changed from * to match your main API
 
 
 // Database connection
-$host = "localhost";
-$dbname = "gym_db";
-$username = "root";
-$password = "";
+$host = "sql312.infinityfree.com";
+$dbname = "if0_41634430_gym_db";
+$username = "if0_41634430";
+$password = "QBzB1XSGUt";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
