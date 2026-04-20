@@ -1,8 +1,8 @@
 <?php
 // ================= CORS =================
-header("Access-Control-Allow-Origin: https://management-gym.onrender.com/");
+header("Access-Control-Allow-Origin: https://management-gym.onrender.com");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Content-Type: application/json");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -256,7 +256,7 @@ function handleAdminAddUser($conn) {
         mysqli_stmt_close($fetchStmt);
         
         if (!empty($userData['photo'])) {
-            $userData['photo'] = "http://localhost/gymsamarth/uploads/" . $userData['photo'];
+            $userData['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads" . $userData['photo'];
         } else {
             $userData['photo'] = null;
         }

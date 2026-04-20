@@ -1,6 +1,6 @@
 <?php
 // CORS (adjust origin in production)
-header("Access-Control-Allow-Origin: https://management-gym.onrender.com/");
+header("Access-Control-Allow-Origin: https://management-gym.onrender.com");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: POST");
 header("Content-Type: application/json");

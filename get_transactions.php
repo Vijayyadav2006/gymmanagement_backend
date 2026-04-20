@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); // Added POST, OPTIONS
 header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Origin: https://management-gym.onrender.com/"); // Changed from * to match your main API
+header("Access-Control-Allow-Origin: https://management-gym.onrender.com");
 
 
 // Database connection
