@@ -600,7 +600,7 @@ function handleGetAllUsers($conn) {
 
     while ($row = mysqli_fetch_assoc($result)) {
         if (!empty($row['photo'])) {
-            $row['photo'] = "http://localhost/gymsamarth/uploads/" . $row['photo'];
+            $row['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads" . $row['photo'];
         } else {
             $row['photo'] = null;
         }
@@ -934,7 +934,7 @@ function handleRegistration($conn) {
         mysqli_stmt_close($fetchStmt);
         
         if (!empty($userData['photo'])) {
-            $userData['photo'] = "http://localhost/gymsamarth/uploads/" . $userData['photo'];
+            $userData['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads" . $userData['photo'];
         } else {
             $userData['photo'] = null;
         }
@@ -1046,7 +1046,7 @@ function handleLogin($conn) {
         if (strpos($user['photo'], 'http') !== false) {
             $user['photo'] = $user['photo'];
         } else {
-            $user['photo'] = "http://localhost/gymsamarth/uploads/" . $user['photo'];
+            $user['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads" . $user['photo'];
         }
     } else {
         $user['photo'] = null;
