@@ -11,10 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Database connection
 
-$host = "sql312.infinityfree.com";
-$user = "if0_41634430";
-$pass = "QBzB1XSGUt";
-$db   = "if0_41634430_gym_db";
+$host = "sql12.freesqldatabase.com";
+$user = "sql12825070";
+$pass = "sMJdt7qxqM";
+$db   = "sql12825070";
+$port = 3306;
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 

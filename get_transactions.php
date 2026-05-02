@@ -6,10 +6,11 @@ header("Access-Control-Allow-Origin: https://management-gym.onrender.com");
 
 
 // Database connection
-$host = "sql312.infinityfree.com";
-$dbname = "if0_41634430_gym_db";
-$username = "if0_41634430";
-$password = "QBzB1XSGUt";
+$host = "sql12.freesqldatabase.com";
+$user = "sql12825070";
+$pass = "sMJdt7qxqM";
+$db   = "sql12825070";
+$port = 3306;
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
