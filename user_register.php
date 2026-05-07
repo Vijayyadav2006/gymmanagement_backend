@@ -246,6 +246,18 @@ function handleAdminAddUser($conn) {
     );
 
     if (mysqli_stmt_execute($insertStmt)) {
+          syncToGoogleSheet("Users", [
+        date("Y-m-d H:i:s"),
+        $firstName,
+        $lastName,
+        $mobile,
+        $email,
+        $plan,
+        $joinDate,
+        $expiryDate,
+        $occupation
+    ]);
+    
         $userId = mysqli_insert_id($conn);
         
         $fetchSql = "SELECT id, first_name, last_name, email, mobile, occupation, plan, join_date, expiry_date, photo FROM users WHERE id = ?";
@@ -257,7 +269,7 @@ function handleAdminAddUser($conn) {
         mysqli_stmt_close($fetchStmt);
         
         if (!empty($userData['photo'])) {
-            $userData['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads" . $userData['photo'];
+            $userData['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads/" . $userData['photo'];
         } else {
             $userData['photo'] = null;
         }
@@ -935,7 +947,7 @@ function handleRegistration($conn) {
         mysqli_stmt_close($fetchStmt);
         
         if (!empty($userData['photo'])) {
-            $userData['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads" . $userData['photo'];
+            $userData['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads/" . $userData['photo'];
         } else {
             $userData['photo'] = null;
         }

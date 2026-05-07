@@ -1,4 +1,5 @@
 <?php
+
 $host = "sql12.freesqldatabase.com";
 $user = "sql12825070";
 $pass = "sMJdt7qxqM";
@@ -17,7 +18,28 @@ if (!$conn) {
     exit;
 }
 
-echo json_encode([
-    "status" => "success",
-    "message" => "Database connected successfully"
-]);
+// ================= GOOGLE SHEET SYNC FUNCTION =================
+
+function syncToGoogleSheet($sheetName, $rowData) {
+
+    $url = "https://script.google.com/macros/s/AKfycbyPhaJU7HYJrAAWmVqxaFpYe3I7ipHVXd-vVUGKIb6f-57PcLMz4d20zJ6zfEl3aOgl/exec";
+
+    $data = [
+        "sheet" => $sheetName,
+        "data" => $rowData
+    ];
+
+    $options = [
+        "http" => [
+            "header"  => "Content-Type: application/json\r\n",
+            "method"  => "POST",
+            "content" => json_encode($data)
+        ]
+    ];
+
+    $context = stream_context_create($options);
+
+    return file_get_contents($url, false, $context);
+}
+
+?>
