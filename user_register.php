@@ -29,44 +29,6 @@ if (!$conn) {
     exit;
 }
 
-// ================= GOOGLE SHEET SYNC FUNCTION =================
-/**
- * Sync data to Google Sheets using Google Apps Script Web App
- * @param string $sheetName The sheet/tab name (e.g., "Users", "Payments")
- * @param array $rowData The data row to append
- * @return mixed Response from Google Apps Script
- */
-function syncToGoogleSheet($sheetName, $rowData) {
-    // Google Apps Script Web App URL
-    $url = "https://script.google.com/macros/s/AKfycbyPhaJU7HYJrAAWmVqxaFpYe3I7ipHVXd-vVUGKIb6f-57PcLMz4d20zJ6zfEl3aOgl/exec";
-    
-    $data = [
-        "sheet" => $sheetName,
-        "data" => $rowData
-    ];
-    
-    $options = [
-        "http" => [
-            "header"  => "Content-Type: application/json\r\n",
-            "method"  => "POST",
-            "content" => json_encode($data),
-            "timeout" => 10 // 10 second timeout
-        ]
-    ];
-    
-    $context = stream_context_create($options);
-    
-    // Suppress warnings and handle errors gracefully
-    $response = @file_get_contents($url, false, $context);
-    
-    if ($response === false) {
-        error_log("Failed to sync to Google Sheets: " . print_r(error_get_last(), true));
-        return false;
-    }
-    
-    return $response;
-}
-
 // ================= CHECK ACTION TYPE =================
 $action = '';
 
@@ -284,24 +246,17 @@ function handleAdminAddUser($conn) {
     );
 
     if (mysqli_stmt_execute($insertStmt)) {
-        // Sync to Google Sheets (non-blocking, fire and forget)
-        // Wrap in try-catch to prevent errors from breaking the response
-        try {
-            syncToGoogleSheet("Users", [
-                date("Y-m-d H:i:s"),
-                $firstName,
-                $lastName,
-                $mobile,
-                $email,
-                $plan,
-                $joinDate,
-                $expiryDate,
-                $occupation
-            ]);
-        } catch (Exception $e) {
-            error_log("Google Sheets sync failed but user was added: " . $e->getMessage());
-            // Don't break the flow - user was still added successfully
-        }
+          syncToGoogleSheet("Users", [
+        date("Y-m-d H:i:s"),
+        $firstName,
+        $lastName,
+        $mobile,
+        $email,
+        $plan,
+        $joinDate,
+        $expiryDate,
+        $occupation
+    ]);
     
         $userId = mysqli_insert_id($conn);
         
@@ -658,7 +613,7 @@ function handleGetAllUsers($conn) {
 
     while ($row = mysqli_fetch_assoc($result)) {
         if (!empty($row['photo'])) {
-            $row['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads/" . $row['photo'];
+            $row['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads" . $row['photo'];
         } else {
             $row['photo'] = null;
         }
@@ -1101,7 +1056,11 @@ function handleLogin($conn) {
     
     // Set proper photo URL
     if (!empty($user['photo'])) {
-        $user['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads/" . $user['photo'];
+        if (strpos($user['photo'], 'http') !== false) {
+            $user['photo'] = $user['photo'];
+        } else {
+            $user['photo'] = "https://gymmanagement-backend-tvxb.onrender.com/uploads" . $user['photo'];
+        }
     } else {
         $user['photo'] = null;
     }
